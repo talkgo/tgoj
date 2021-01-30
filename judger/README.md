@@ -1,11 +1,15 @@
 # 评测机
+## 使用前必看
+- 需要设置环境变量`Resource`，值为存放`code、input、output、exe、answer`等资源的父目录，例如`mock`目录的路径。
+- 先把编译和运行用的容器pull到本地，默认是golang:1.15 和 alpine:latest
+
+
 ## 结构
 - executor: 将评测分为编译、运行、校验答案 三个阶段，支持CPU、内存、时间限制，但对容器的内存限制至少为6MB，实际建议限制内存最小值为16MB.
   - `EnableCompiler`会运行一个编译用的go容器，之后才能使用编译功能，所有编译工作都在该容器处理
   - 每次运行编译生成的可执行文件，都会启动一个专门运行该文件的容器，以实现环境隔离
   - 通过channel传递外部传入的评测任务、内部的编译、运行、校验任务
   - 每个阶段都支持并发，由多个goroutine监听channel
-  - 需要设置环境变量`Resource`，值为存放`code、input、output、exe、answer`等资源的父目录，例如`mock`目录的路径
   - 支持同时运行多个goroutine执行compile、run、verify工作，具体使用参考`executor\docker_executor\dockerExecutor_test.go`的`TestDockerExecutor_Run`
   - 目前实现通过Docker执行每个阶段的工作，未来可以增加K8s或其他环境
   - 通过`context`实现多个goroutine的退出，每个goroutine监听的是同一个context变量
