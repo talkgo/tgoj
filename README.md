@@ -35,7 +35,7 @@
 
 整个项目分为前端，后端，以及判题机三大部分。
 
-
+![svg](https://github.com/talkgo/tgoj/blob/main/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84.svg)
 
 ##### 1.2 判题机(judger)设计
 
